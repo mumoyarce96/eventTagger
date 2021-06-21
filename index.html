@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tracking Tool (building..)</title>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+
+<body> 
+<div id="title-bar-container">
+    <div id="title">
+      <h3>Building..</h3>
+      <span>Add Description... </span>
+    </div>
+  </div>
+
+<div id="image-loader">
+<form action='#' onsubmit="return false;">
+    <input type='file' id='imgfile' />
+    <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
+</form> 
+</div>   
+  <br>
+<div id="team-name-container">
+    Write team names:
+    <input type="text" id="add-team1-name" placeholder="Team 1 name" onkeypress="teamNameChanger(event)">
+    <input type="text" id="add-team2-name" placeholder="Team 2 name" onkeypress="teamNameChanger(event)">
+  </div> 
+
+<div id="team-container">
+    Select a team:
+    <button class="team-button" id="team1-button">Team 1</button>
+    <button class="team-button" id="team2-button">Team 2</button>
+  </div>
+
+<div id="number-container">
+    Select a player:
+    <input type="number" id="selectedNumber" min=0 max=250 placeholder=1>
+  </div>
+
+  <div id="event-container">
+    Select an event:
+    <button class="event-button">Shot</button>
+    <button class="event-button">Pass</button>
+  </div>
+
+  <div id="input-container">
+    <input type="text" id="add-event" placeholder="Add an event" onkeypress="eventAdder(event)">
+  </div>
+
+<div>
+   <div id="table-button-container">
+    <div id="button-container">
+      <button id="undo">Delete Last</button>
+      <button id="clear">Delete All</button>
+      <button id="export" onclick="exportTableToCSV('shotcoords.csv')">Export to CSV </button>
+    </div>
+     <br></br>
+    <div id="table-container">
+      <table id="data">
+        <thead>
+          <tr>
+            <th>Team</th>
+            <th>Player</th>
+            <th>Event</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>❌</th>
+          </tr>
+        </thead>
+        <tbody id="data-body">
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+<div id="pitch-container">
+<canvas id="canvas"></canvas>
+</div>
+</div>
+
+<script src="tagger.js"></script>
+</body> 
+</html>
+
