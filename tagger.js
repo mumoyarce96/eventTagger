@@ -37,14 +37,24 @@ class Circle {
   }
 }
 
-circles = [];
+events = [];
 function update(){
   context.clearRect(0, 0, canvas.width, canvas.height);
   context.drawImage(img, 0, 0,canvas.width, canvas.height);
-  for(var i=0; i<circles.length; i++){
-    context.fillStyle = circles[i].color;
-    let myCircle = new Circle(circles[i].x, circles[i].y, 5);
-    myCircle.draw(context);
+  for(var i=0; i<events.length; i++){
+    context.fillStyle = events[i].color;
+    if (events[i].type == "single") {
+      let myCircle = new Circle(events[i].x, events[i].y, 3);
+      myCircle.draw(context);
+    } else {
+      context.beginPath();
+      context.strokeStyle = events[i].color;
+      context.moveTo(events[i].x, events[i].y);
+      context.lineTo(events[i].xEnd, events[i].yEnd);
+      context.stroke();
+      let myCircle = new Circle(events[i].xEnd, events[i].yEnd, 3);
+      myCircle.draw(context);
+    }
   }
 } 
 
@@ -121,38 +131,11 @@ function getMousePos(canvas, evt) {
 
 var table = document.getElementById("data-body");
 
-canvas.addEventListener("click", function (evt) {
-  var mousePos = getMousePos(canvas, evt);
-  var contextCircle = canvas.getContext("2d");
-  var row = table.insertRow(-1);
-  var cell1 = row.insertCell(0);
-  var cell2 = row.insertCell(1)
-  var cell3 = row.insertCell(2);
-  var cell4 = row.insertCell(3);
-  var cell5 = row.insertCell(4);
-  var cell6 = row.insertCell(5);
-  cell1.innerHTML = selectedTeam;
-  cell2.innerHTML = selectedNumber.value;
-  cell3.innerHTML = eventType;
-  cell4.innerHTML = Math.floor(mousePos.x);
-  cell5.innerHTML = Math.floor(mousePos.y);
-  cell6.innerHTML = '<button class="deleteBtn">X</button>';
-
-  
-  circles.push({
-  x:mousePos.x, y:mousePos.y,
-  color: "black"
-  });
-  
-  if (selectedTeam == document.getElementById("team2-button").innerText) {
-    circles[circles.length-1].color = "red";
-  }
-  update();
-  
-  document.getElementById(
-    "table-container"
-  ).scrollTop = document.getElementById("table-container").scrollHeight;
+canvas.addEventListener("mousedown", function (evt) {
+  mouseDownPos = getMousePos(canvas, evt);
+   
 });
+
 
 function onDeleteRow(e){
   if (!e.target.classList.contains('deleteBtn')){
@@ -162,8 +145,58 @@ function onDeleteRow(e){
   btn.closest('tr').remove();
 }
 
+canvas.addEventListener('mouseup', function (evt){
+    var row           = table.insertRow(-1);
+    var teamCell      = row.insertCell(0);
+    var numberCell    = row.insertCell(1);
+    var eventCell     = row.insertCell(2);
+    var xCell         = row.insertCell(3);
+    var yCell         = row.insertCell(4);
+    var x1Cell        = row.insertCell(5);
+    var y1Cell        = row.insertCell(6);
+    var deleteRowCell = row.insertCell(7);
+    var mouseUpPos    = getMousePos(canvas,evt);
+    console.log(getDistance(mouseDownPos, mouseUpPos))
+    var color = "black"
+    if (selectedTeam == document.getElementById("team2-button").innerText) {
+      color = "red";
+    }
+    
+
+    if (getDistance(mouseDownPos, mouseUpPos)>1){
+        events.push({
+          type: "double",
+          x:mouseDownPos.x, y:mouseDownPos.y,
+          xEnd: mouseUpPos.x, yEnd: mouseUpPos.y,
+          color: color,
+        })
+        update();
+        x1Cell.innerHTML = mouseUpPos.x;
+        y1Cell.innerHTML = mouseUpPos.y; 
+    
+    } else {
+      events.push({
+        type: "single",
+        x:mouseDownPos.x, y:mouseDownPos.y,
+        color: color
+      });
+      update();
+    }
+    
+    
+    teamCell.innerHTML = selectedTeam;
+    numberCell.innerHTML = selectedNumber.value;
+    eventCell.innerHTML = eventType;
+    xCell.innerHTML = Math.floor(mouseDownPos.x);
+    yCell.innerHTML = Math.floor(mouseDownPos.y);
+    deleteRowCell.innerHTML = '<button class="deleteBtn">X</button>';
+})
+
 table.addEventListener('click',onDeleteRow)
 
+function getDistance(pos1, pos2){
+  return Math.sqrt((pos1.x-pos2.x)**2+(pos1.y-pos2.y)**2)
+}
 
 function loadImage() {
         var input, file, fr;
@@ -216,13 +249,13 @@ document.getElementById("undo").onclick = function () {
   if (table.rows.length > 1) {
     table.deleteRow(table.rows.length - 1);
   } 
-  circles.pop();
+  events.pop();
   update();
 };
 
 document.getElementById("clear").onclick = function () {
   table.innerHTML = "";
-  circles = [];
+  events = [];
   update();
 };
 
