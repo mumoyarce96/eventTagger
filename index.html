@@ -54,6 +54,8 @@
       <button id="undo">Delete Last</button>
       <button id="clear">Delete All</button>
       <button id="export" onclick="exportTableToCSV('shotcoords.csv')">Export to CSV </button>
+      <br></br>
+      <input id="newFilename" type="text" placeholder="Write filename" onkeypress="filenameChanger(event)">
     </div>
      <br></br>
     <div id="table-container">
@@ -76,6 +78,7 @@
 
       </table>
     </div>
+
   </div>
 
 <div id="pitch-container">

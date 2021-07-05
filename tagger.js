@@ -4,6 +4,7 @@ canvas.width = 650;
 canvas.height = 600;
 selectedTeam = "Team 1"
 eventType = "Shot";
+var filename = "taggedEvents.csv"
 var selectedNumber = document.getElementById("selectedNumber");
 selectedNumber.value = 1;
 
@@ -156,7 +157,6 @@ canvas.addEventListener('mouseup', function (evt){
     var y1Cell        = row.insertCell(6);
     var deleteRowCell = row.insertCell(7);
     var mouseUpPos    = getMousePos(canvas,evt);
-    console.log(getDistance(mouseDownPos, mouseUpPos))
     var color = "black"
     if (selectedTeam == document.getElementById("team2-button").innerText) {
       color = "red";
@@ -259,7 +259,7 @@ document.getElementById("clear").onclick = function () {
   update();
 };
 
-function downloadCSV(csv, filename) {
+function downloadCSV(csv) {
   var csvFile;
   var downloadLink;
 
@@ -285,7 +285,24 @@ function downloadCSV(csv, filename) {
   downloadLink.click();
 }
 
-function exportTableToCSV(filename) {
+
+var changeFilename = function () {
+  var newFilename = document.getElementById("newFilename").value;
+  
+  if (newFilename){
+    filename = newFilename.concat('.csv');
+  } 
+};
+
+var filenameChanger = function (e) {
+  var key = e.keyCode;
+
+  if (key == 13) {
+    changeFilename();
+  }
+};
+
+function exportTableToCSV() {
   var csv = [];
   var rows = document.querySelectorAll("table tr");
 
@@ -299,7 +316,7 @@ function exportTableToCSV(filename) {
   }
 
   // Download CSV file
-  downloadCSV(csv.join("\n"), 'events.csv');
+  downloadCSV(csv.join("\n"), filename);
 }
 
 
