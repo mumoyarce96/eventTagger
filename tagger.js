@@ -3,6 +3,7 @@ context = canvas.getContext('2d');
 canvas.width = 650;
 canvas.height = 600;
 selectedTeam = "Team 1"
+nonSelectedTeam = "Team 2"
 eventType = "Shot";
 var filename = "taggedEvents.csv"
 var selectedNumber = document.getElementById("selectedNumber");
@@ -116,6 +117,11 @@ var teamNameChanger = function (e) {
 
 var changeTeam = function () {
   selectedTeam = this.innerHTML;
+  if (selectedTeam == team1Name){
+    nonSelectedTeam = team2Name} 
+  else {
+    nonSelectedTeam = team1Name
+  }
 };
 
 for (var i = 0; i < teamButtons.length; i++) {
@@ -148,14 +154,15 @@ function onDeleteRow(e){
 
 canvas.addEventListener('mouseup', function (evt){
     var row           = table.insertRow(-1);
-    var teamCell      = row.insertCell(0);
-    var numberCell    = row.insertCell(1);
-    var eventCell     = row.insertCell(2);
-    var xCell         = row.insertCell(3);
-    var yCell         = row.insertCell(4);
-    var x1Cell        = row.insertCell(5);
-    var y1Cell        = row.insertCell(6);
-    var deleteRowCell = row.insertCell(7);
+    var team1Cell      = row.insertCell(0);
+    var playerCell    = row.insertCell(1);
+    var team2Cell      = row.insertCell(2);
+    var eventCell     = row.insertCell(3);
+    var xStartCell    = row.insertCell(4);
+    var yStartCell    = row.insertCell(5);
+    var xEndCell        = row.insertCell(6);
+    var yEndCell        = row.insertCell(7);
+    var deleteRowCell = row.insertCell(8);
     var mouseUpPos    = getMousePos(canvas,evt);
     var color = "black"
     if (selectedTeam == document.getElementById("team2-button").innerText) {
@@ -171,8 +178,8 @@ canvas.addEventListener('mouseup', function (evt){
           color: color,
         })
         update();
-        x1Cell.innerHTML = mouseUpPos.x;
-        y1Cell.innerHTML = mouseUpPos.y; 
+        xEndCell.innerHTML = mouseUpPos.x;
+        yEndCell.innerHTML = mouseUpPos.y; 
     
     } else {
       events.push({
@@ -184,11 +191,12 @@ canvas.addEventListener('mouseup', function (evt){
     }
     
     
-    teamCell.innerHTML = selectedTeam;
-    numberCell.innerHTML = selectedNumber.value;
+    team1Cell.innerHTML = selectedTeam;
+    team2Cell.innerHTML = nonSelectedTeam
+    playerCell.innerHTML = selectedNumber.value;
     eventCell.innerHTML = eventType;
-    xCell.innerHTML = Math.floor(mouseDownPos.x);
-    yCell.innerHTML = Math.floor(mouseDownPos.y);
+    xStartCell.innerHTML = Math.floor(mouseDownPos.x);
+    yStartCell.innerHTML = Math.floor(mouseDownPos.y);
     deleteRowCell.innerHTML = '<button class="deleteBtn">X</button>';
 })
 
