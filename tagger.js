@@ -156,7 +156,7 @@ canvas.addEventListener('mouseup', function (evt){
     var row           = table.insertRow(-1);
     var team1Cell      = row.insertCell(0);
     var playerCell    = row.insertCell(1);
-    var team2Cell      = row.insertCell(2);
+    var team2Cell     = row.insertCell(2);
     var eventCell     = row.insertCell(3);
     var xStartCell    = row.insertCell(4);
     var yStartCell    = row.insertCell(5);
@@ -192,7 +192,7 @@ canvas.addEventListener('mouseup', function (evt){
     
     
     team1Cell.innerHTML = selectedTeam;
-    team2Cell.innerHTML = nonSelectedTeam
+    team2Cell.innerHTML = "placeHolder";
     playerCell.innerHTML = selectedNumber.value;
     eventCell.innerHTML = eventType;
     xStartCell.innerHTML = Math.floor(mouseDownPos.x);
