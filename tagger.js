@@ -154,14 +154,14 @@ function onDeleteRow(e){
 
 canvas.addEventListener('mouseup', function (evt){
     var row           = table.insertRow(-1);
-    var team1Cell      = row.insertCell(0);
+    var team1Cell     = row.insertCell(0);
     var playerCell    = row.insertCell(1);
     var team2Cell     = row.insertCell(2);
     var eventCell     = row.insertCell(3);
     var xStartCell    = row.insertCell(4);
     var yStartCell    = row.insertCell(5);
-    var xEndCell        = row.insertCell(6);
-    var yEndCell        = row.insertCell(7);
+    var xEndCell      = row.insertCell(6);
+    var yEndCell      = row.insertCell(7);
     var deleteRowCell = row.insertCell(8);
     var mouseUpPos    = getMousePos(canvas,evt);
     var color = "black"
@@ -190,9 +190,8 @@ canvas.addEventListener('mouseup', function (evt){
       update();
     }
     
-    
     team1Cell.innerHTML = selectedTeam;
-    team2Cell.innerHTML = "placeHolder";
+    team2Cell.innerHTML = nonSelectedTeam;
     playerCell.innerHTML = selectedNumber.value;
     eventCell.innerHTML = eventType;
     xStartCell.innerHTML = Math.floor(mouseDownPos.x);
