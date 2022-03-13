@@ -10,6 +10,7 @@ var selectedNumber = document.getElementById("selectedNumber");
 selectedNumber.value = 1;
 
 let img = new Image();
+img.crossOrigin = "Anonymous";
 img.onload = function(){
   w = canvas.width;
   nw = img.naturalWidth;
@@ -324,6 +325,6 @@ function exportTableToCSV() {
 
   // Download CSV file
   downloadCSV(csv.join("\n"), filename);
-}
+};
 
 
